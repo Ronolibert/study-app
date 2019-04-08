@@ -3,16 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-boost": "^0.3.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.4",
     "dotenv": "^7.0.0",
     "graphql": "^14.2.1",
     "graphql-cli": "^3.0.11",
+    "graphql-tag": "^2.10.1",
     "graphql-yoga": "^1.17.4",
     "jsonwebtoken": "^8.5.1",
     "prisma": "^1.30.0",
     "prisma-binding": "^2.3.10",
     "react": "^16.8.6",
+    "react-apollo": "^2.5.4",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8"
@@ -35,5 +38,6 @@
     "eslint-config-react-app": "^3.0.8",
     "eslint-plugin-react-hooks": "^1.6.0",
     "nodemon": "^1.18.10"
-  }
+  },
+  "proxy": "http://localhost:9000"
 }
