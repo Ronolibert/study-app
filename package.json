@@ -3,6 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^7.0.0",
+    "graphql": "^14.2.1",
+    "graphql-cli": "^3.0.11",
+    "graphql-yoga": "^1.17.4",
+    "jsonwebtoken": "^8.5.1",
+    "prisma": "^1.30.0",
+    "prisma-binding": "^2.3.10",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
@@ -12,7 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "nodemon -e js,graphql -x node --inspect src/server/index.js"
   },
   "browserslist": [
     ">0.2%",
@@ -21,8 +31,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "eslint-plugin-react-hooks": "^1.6.0",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-react-app": "^3.0.8"
+    "eslint-config-react-app": "^3.0.8",
+    "eslint-plugin-react-hooks": "^1.6.0",
+    "nodemon": "^1.18.10"
   }
 }
