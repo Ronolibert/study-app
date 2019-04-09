@@ -12,16 +12,16 @@ import CreateDeck from './CreateDeck';
 function App() {
   return (
     <div>
-      <Sidebar>
-        <Router>
+      <Router>
+        <Sidebar>
           <Switch>
             <Route exact path="/" component={Signup} />
             <Route path="/login" component={Signin} />
             <PrivateRoute path="/dashboard" component={Dashboard} />
             <PrivateRoute path="/create-deck" component={CreateDeck} />
           </Switch>
-        </Router>
-      </Sidebar>
+        </Sidebar>
+      </Router>
     </div>
   );
 }
