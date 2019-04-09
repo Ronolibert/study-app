@@ -5,12 +5,25 @@ type User {
   password: String!
   resetToken: String
   resetTokenExpiry: Float
+  decks: [Deck!]
+}
+
+type Deck {
+  id: ID! @unique
+  title: String!
+  description: String
+  cards: [Card]
+  owner: User!
+}
+
+type Card {
+  id: ID! @unique
+  term: String!
+  definition: String!
 }
 
 type Folder {
   id: ID! @unique
   name: String!
   subfolder: Folder
-  owner: User!
-  parentFolderId: ID
 }

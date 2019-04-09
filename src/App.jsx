@@ -19,6 +19,7 @@ function App() {
             <Route path="/login" component={Signin} />
             <PrivateRoute path="/dashboard" component={Dashboard} />
             <PrivateRoute path="/create-deck" component={CreateDeck} />
+            <PrivateRoute path="/login" component={Signin} />
           </Switch>
         </Sidebar>
       </Router>

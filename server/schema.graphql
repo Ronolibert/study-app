@@ -6,10 +6,17 @@ type SuccessMessage {
 type Query {
   test: String!
   me: User
+  deck: Deck!
+  decks: [Deck]
 }
 
 type Mutation {
   signup(name: String!, email: String!, password: String!): User!
   signin(email: String!, password: String!): User!
   signout: SuccessMessage
+  createDeck(
+    title: String!
+    description: String
+    cards: [CardCreateInput]
+  ): Deck!
 }

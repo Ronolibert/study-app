@@ -49,6 +49,27 @@ const Mutation = {
   signout(parent, args, ctx, info) {
     ctx.response.clearCookie('token');
     return { message: 'Goodbye!' };
+  },
+  async createDeck(parent, { title, description, cards }, ctx, info) {
+    const deck = await ctx.db.mutation.createDeck(
+      {
+        data: {
+          owner: {
+            connect: {
+              id: 'cju7oznfkxgf40b03kzkk1fpn'
+            }
+          },
+          title,
+          description,
+          cards: {
+            create: cards
+          }
+        }
+      },
+      info
+    );
+
+    return deck;
   }
 };
 
