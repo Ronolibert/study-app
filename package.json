@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "apollo-boost": "^0.3.1",
+    "babel-plugin-import": "^1.11.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.4",
+    "customize-cra": "^0.2.12",
     "dotenv": "^7.0.0",
     "graphql": "^14.2.1",
     "graphql-cli": "^3.0.11",
@@ -17,14 +19,15 @@
     "prisma-binding": "^2.3.10",
     "react": "^16.8.6",
     "react-apollo": "^2.5.4",
+    "react-app-rewired": "^2.1.1",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "server": "nodemon -e js,graphql -x node --inspect server/index.js"
   },
