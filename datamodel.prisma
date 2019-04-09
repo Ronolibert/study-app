@@ -6,3 +6,11 @@ type User {
   resetToken: String
   resetTokenExpiry: Float
 }
+
+type Folder {
+  id: ID! @unique
+  name: String!
+  subfolder: Folder
+  owner: User!
+  parentFolderId: ID
+}

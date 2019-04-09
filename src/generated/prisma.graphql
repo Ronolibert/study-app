@@ -1,5 +1,9 @@
 # source: https://us1.prisma.sh/ron-cruz-778a64/study-thing/dev
-# timestamp: Sun Apr 07 2019 18:30:05 GMT-0700 (Pacific Daylight Time)
+# timestamp: Mon Apr 08 2019 01:01:18 GMT-0700 (Pacific Daylight Time)
+
+type AggregateFolder {
+  count: Int!
+}
 
 type AggregateUser {
   count: Int!
@@ -10,6 +14,272 @@ type BatchPayload {
   count: Long!
 }
 
+type Folder implements Node {
+  id: ID!
+  name: String!
+  subfolder: Folder
+  owner: User!
+  parentFolderId: ID
+}
+
+"""A connection to a list of items."""
+type FolderConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FolderEdge]!
+  aggregate: AggregateFolder!
+}
+
+input FolderCreateInput {
+  id: ID
+  name: String!
+  parentFolderId: ID
+  subfolder: FolderCreateOneInput
+  owner: UserCreateOneInput!
+}
+
+input FolderCreateOneInput {
+  create: FolderCreateInput
+  connect: FolderWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type FolderEdge {
+  """The item at the end of the edge."""
+  node: Folder!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum FolderOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  parentFolderId_ASC
+  parentFolderId_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type FolderPreviousValues {
+  id: ID!
+  name: String!
+  parentFolderId: ID
+}
+
+type FolderSubscriptionPayload {
+  mutation: MutationType!
+  node: Folder
+  updatedFields: [String!]
+  previousValues: FolderPreviousValues
+}
+
+input FolderSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FolderSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FolderSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FolderSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: FolderWhereInput
+}
+
+input FolderUpdateDataInput {
+  name: String
+  parentFolderId: ID
+  subfolder: FolderUpdateOneInput
+  owner: UserUpdateOneRequiredInput
+}
+
+input FolderUpdateInput {
+  name: String
+  parentFolderId: ID
+  subfolder: FolderUpdateOneInput
+  owner: UserUpdateOneRequiredInput
+}
+
+input FolderUpdateManyMutationInput {
+  name: String
+  parentFolderId: ID
+}
+
+input FolderUpdateOneInput {
+  create: FolderCreateInput
+  connect: FolderWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: FolderUpdateDataInput
+  upsert: FolderUpsertNestedInput
+}
+
+input FolderUpsertNestedInput {
+  update: FolderUpdateDataInput!
+  create: FolderCreateInput!
+}
+
+input FolderWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FolderWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FolderWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FolderWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  parentFolderId: ID
+
+  """All values that are not equal to given value."""
+  parentFolderId_not: ID
+
+  """All values that are contained in given list."""
+  parentFolderId_in: [ID!]
+
+  """All values that are not contained in given list."""
+  parentFolderId_not_in: [ID!]
+
+  """All values less than the given value."""
+  parentFolderId_lt: ID
+
+  """All values less than or equal the given value."""
+  parentFolderId_lte: ID
+
+  """All values greater than the given value."""
+  parentFolderId_gt: ID
+
+  """All values greater than or equal the given value."""
+  parentFolderId_gte: ID
+
+  """All values containing the given string."""
+  parentFolderId_contains: ID
+
+  """All values not containing the given string."""
+  parentFolderId_not_contains: ID
+
+  """All values starting with the given string."""
+  parentFolderId_starts_with: ID
+
+  """All values not starting with the given string."""
+  parentFolderId_not_starts_with: ID
+
+  """All values ending with the given string."""
+  parentFolderId_ends_with: ID
+
+  """All values not ending with the given string."""
+  parentFolderId_not_ends_with: ID
+  subfolder: FolderWhereInput
+  owner: UserWhereInput
+}
+
+input FolderWhereUniqueInput {
+  id: ID
+}
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -17,11 +287,17 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
+  createFolder(data: FolderCreateInput!): Folder!
   createUser(data: UserCreateInput!): User!
+  updateFolder(data: FolderUpdateInput!, where: FolderWhereUniqueInput!): Folder
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  deleteFolder(where: FolderWhereUniqueInput!): Folder
   deleteUser(where: UserWhereUniqueInput!): User
+  upsertFolder(where: FolderWhereUniqueInput!, create: FolderCreateInput!, update: FolderUpdateInput!): Folder!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  updateManyFolders(data: FolderUpdateManyMutationInput!, where: FolderWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  deleteManyFolders(where: FolderWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
@@ -53,8 +329,11 @@ type PageInfo {
 }
 
 type Query {
+  folders(where: FolderWhereInput, orderBy: FolderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Folder]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  folder(where: FolderWhereUniqueInput!): Folder
   user(where: UserWhereUniqueInput!): User
+  foldersConnection(where: FolderWhereInput, orderBy: FolderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FolderConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
@@ -65,6 +344,7 @@ type Query {
 }
 
 type Subscription {
+  folder(where: FolderSubscriptionWhereInput): FolderSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -94,6 +374,11 @@ input UserCreateInput {
   password: String!
   resetToken: String
   resetTokenExpiry: Float
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -170,6 +455,14 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -184,6 +477,18 @@ input UserUpdateManyMutationInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
