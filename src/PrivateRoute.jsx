@@ -11,18 +11,19 @@ function PrivateRoute({ component: Component, ...rest }) {
           {({ data, loading }) => {
             if (loading) {
               return <div>Loading...</div>;
-            } else if (data.me) {
-              return <Component {...rest} />;
             }
+            // else if (data.me) {
+            // }
 
-            return (
-              <Redirect
-                to={{
-                  pathname: '/login',
-                  state: { from: props.location }
-                }}
-              />
-            );
+            return <Component {...rest} />;
+            // return (
+            //   <Redirect
+            //     to={{
+            //       pathname: '/login',
+            //       state: { from: props.location }
+            //     }}
+            //   />
+            // );
           }}
         </User>
       )}
