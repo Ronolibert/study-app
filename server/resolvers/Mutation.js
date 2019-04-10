@@ -56,7 +56,7 @@ const Mutation = {
         data: {
           owner: {
             connect: {
-              id: 'cju7oznfkxgf40b03kzkk1fpn'
+              id: ctx.request.userId
             }
           },
           title,

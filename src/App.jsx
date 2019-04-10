@@ -1,13 +1,12 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Header from './Header';
 import Sidebar from './Sidebar';
 import Signup from './Signup';
 import Signin from './Signin';
 import PrivateRoute from './PrivateRoute';
 import Dashboard from './Dashboard';
 import CreateDeck from './CreateDeck';
+import DeckOfCards from './DeckOfCards';
 
 function App() {
   return (
@@ -17,9 +16,9 @@ function App() {
           <Switch>
             <Route exact path="/" component={Signup} />
             <Route path="/login" component={Signin} />
+            <PrivateRoute path="/deck/:deckId" component={DeckOfCards} />
             <PrivateRoute path="/dashboard" component={Dashboard} />
             <PrivateRoute path="/create-deck" component={CreateDeck} />
-            <PrivateRoute path="/login" component={Signin} />
           </Switch>
         </Sidebar>
       </Router>

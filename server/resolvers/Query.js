@@ -5,15 +5,15 @@ const Query = {
     // }
     return ctx.db.query.user(
       {
-        where: { id: 'cju7oznfkxgf40b03kzkk1fpn' }
+        where: { id: ctx.request.userId }
       },
       info
     );
   },
-  deck(parent, args, ctx, info) {
+  deck(parent, { id }, ctx, info) {
     return ctx.db.query.deck(
       {
-        where: { id: 'cju9h8ozk7zdb0b03s8sulnh4' }
+        where: { id }
       },
       info
     );
@@ -21,7 +21,7 @@ const Query = {
   decks(parent, args, ctx, info) {
     return ctx.db.query.decks(
       {
-        where: { owner: { id: 'cju7oznfkxgf40b03kzkk1fpn' } }
+        where: { owner: { id: ctx.request.userId } }
       },
       info
     );

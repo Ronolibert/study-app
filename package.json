@@ -14,6 +14,7 @@
     "graphql-cli": "^3.0.11",
     "graphql-tag": "^2.10.1",
     "graphql-yoga": "^1.17.4",
+    "history": "^4.9.0",
     "jsonwebtoken": "^8.5.1",
     "normalize.css": "^8.0.1",
     "prisma": "^1.30.0",

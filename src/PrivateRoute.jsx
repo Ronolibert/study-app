@@ -1,11 +1,12 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 import User from './User';
 
-function PrivateRoute({ component: Component, ...rest }) {
+function PrivateRoute({ component: Component, path, ...rest }) {
   return (
     <Route
       {...rest}
+      path={path}
       render={props => (
         <User>
           {({ data, loading }) => {
@@ -14,8 +15,7 @@ function PrivateRoute({ component: Component, ...rest }) {
             }
             // else if (data.me) {
             // }
-
-            return <Component {...rest} />;
+            return <Component {...rest} {...props} />;
             // return (
             //   <Redirect
             //     to={{
@@ -30,4 +30,4 @@ function PrivateRoute({ component: Component, ...rest }) {
     />
   );
 }
-export default PrivateRoute;
+export default withRouter(PrivateRoute);

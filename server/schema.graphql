@@ -6,7 +6,7 @@ type SuccessMessage {
 type Query {
   test: String!
   me: User
-  deck: Deck!
+  deck(id: ID!): Deck!
   decks: [Deck]
 }
 
@@ -17,6 +17,6 @@ type Mutation {
   createDeck(
     title: String!
     description: String
-    cards: [CardCreateInput]
+    cards: [CardCreateInput!]!
   ): Deck!
 }
