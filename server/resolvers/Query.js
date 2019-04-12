@@ -25,6 +25,14 @@ const Query = {
       },
       info
     );
+  },
+  folders(parent, args, ctx, info) {
+    return ctx.db.query.folders(
+      {
+        where: { owner: { id: ctx.request.userId } }
+      },
+      info
+    );
   }
 };
 

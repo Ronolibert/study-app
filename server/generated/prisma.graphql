@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/ron-cruz-778a64/study-thing/dev
-# timestamp: Tue Apr 09 2019 00:04:45 GMT-0700 (Pacific Daylight Time)
+# timestamp: Fri Apr 12 2019 02:18:48 GMT-0700 (Pacific Daylight Time)
 
 type AggregateCard {
   count: Int!
@@ -855,7 +855,8 @@ input DeckWhereUniqueInput {
 type Folder implements Node {
   id: ID!
   name: String!
-  subfolder: Folder
+  subfolders(where: FolderWhereInput, orderBy: FolderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Folder!]
+  owner: User!
 }
 
 """A connection to a list of items."""
@@ -871,12 +872,13 @@ type FolderConnection {
 input FolderCreateInput {
   id: ID
   name: String!
-  subfolder: FolderCreateOneInput
+  subfolders: FolderCreateManyInput
+  owner: UserCreateOneInput!
 }
 
-input FolderCreateOneInput {
-  create: FolderCreateInput
-  connect: FolderWhereUniqueInput
+input FolderCreateManyInput {
+  create: [FolderCreateInput!]
+  connect: [FolderWhereUniqueInput!]
 }
 
 """An edge in a connection."""
@@ -902,6 +904,97 @@ enum FolderOrderByInput {
 type FolderPreviousValues {
   id: ID!
   name: String!
+}
+
+input FolderScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FolderScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FolderScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FolderScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
 }
 
 type FolderSubscriptionPayload {
@@ -943,28 +1036,48 @@ input FolderSubscriptionWhereInput {
 
 input FolderUpdateDataInput {
   name: String
-  subfolder: FolderUpdateOneInput
+  subfolders: FolderUpdateManyInput
+  owner: UserUpdateOneRequiredInput
 }
 
 input FolderUpdateInput {
   name: String
-  subfolder: FolderUpdateOneInput
+  subfolders: FolderUpdateManyInput
+  owner: UserUpdateOneRequiredInput
+}
+
+input FolderUpdateManyDataInput {
+  name: String
+}
+
+input FolderUpdateManyInput {
+  create: [FolderCreateInput!]
+  connect: [FolderWhereUniqueInput!]
+  set: [FolderWhereUniqueInput!]
+  disconnect: [FolderWhereUniqueInput!]
+  delete: [FolderWhereUniqueInput!]
+  update: [FolderUpdateWithWhereUniqueNestedInput!]
+  updateMany: [FolderUpdateManyWithWhereNestedInput!]
+  deleteMany: [FolderScalarWhereInput!]
+  upsert: [FolderUpsertWithWhereUniqueNestedInput!]
 }
 
 input FolderUpdateManyMutationInput {
   name: String
 }
 
-input FolderUpdateOneInput {
-  create: FolderCreateInput
-  connect: FolderWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: FolderUpdateDataInput
-  upsert: FolderUpsertNestedInput
+input FolderUpdateManyWithWhereNestedInput {
+  where: FolderScalarWhereInput!
+  data: FolderUpdateManyDataInput!
 }
 
-input FolderUpsertNestedInput {
+input FolderUpdateWithWhereUniqueNestedInput {
+  where: FolderWhereUniqueInput!
+  data: FolderUpdateDataInput!
+}
+
+input FolderUpsertWithWhereUniqueNestedInput {
+  where: FolderWhereUniqueInput!
   update: FolderUpdateDataInput!
   create: FolderCreateInput!
 }
@@ -1058,7 +1171,10 @@ input FolderWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
-  subfolder: FolderWhereInput
+  subfolders_every: FolderWhereInput
+  subfolders_some: FolderWhereInput
+  subfolders_none: FolderWhereInput
+  owner: UserWhereInput
 }
 
 input FolderWhereUniqueInput {
@@ -1072,29 +1188,29 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createDeck(data: DeckCreateInput!): Deck!
   createFolder(data: FolderCreateInput!): Folder!
+  createUser(data: UserCreateInput!): User!
   createCard(data: CardCreateInput!): Card!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateDeck(data: DeckUpdateInput!, where: DeckWhereUniqueInput!): Deck
   updateFolder(data: FolderUpdateInput!, where: FolderWhereUniqueInput!): Folder
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateCard(data: CardUpdateInput!, where: CardWhereUniqueInput!): Card
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteDeck(where: DeckWhereUniqueInput!): Deck
   deleteFolder(where: FolderWhereUniqueInput!): Folder
+  deleteUser(where: UserWhereUniqueInput!): User
   deleteCard(where: CardWhereUniqueInput!): Card
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertDeck(where: DeckWhereUniqueInput!, create: DeckCreateInput!, update: DeckUpdateInput!): Deck!
   upsertFolder(where: FolderWhereUniqueInput!, create: FolderCreateInput!, update: FolderUpdateInput!): Folder!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertCard(where: CardWhereUniqueInput!, create: CardCreateInput!, update: CardUpdateInput!): Card!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyDecks(data: DeckUpdateManyMutationInput!, where: DeckWhereInput): BatchPayload!
   updateManyFolders(data: FolderUpdateManyMutationInput!, where: FolderWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyCards(data: CardUpdateManyMutationInput!, where: CardWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyDecks(where: DeckWhereInput): BatchPayload!
   deleteManyFolders(where: FolderWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyCards(where: CardWhereInput): BatchPayload!
 }
 
@@ -1126,17 +1242,17 @@ type PageInfo {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   decks(where: DeckWhereInput, orderBy: DeckOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Deck]!
   folders(where: FolderWhereInput, orderBy: FolderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Folder]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   cards(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Card]!
-  user(where: UserWhereUniqueInput!): User
   deck(where: DeckWhereUniqueInput!): Deck
   folder(where: FolderWhereUniqueInput!): Folder
+  user(where: UserWhereUniqueInput!): User
   card(where: CardWhereUniqueInput!): Card
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   decksConnection(where: DeckWhereInput, orderBy: DeckOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DeckConnection!
   foldersConnection(where: FolderWhereInput, orderBy: FolderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FolderConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   cardsConnection(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CardConnection!
 
   """Fetches an object given its ID"""
@@ -1147,9 +1263,9 @@ type Query {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   deck(where: DeckSubscriptionWhereInput): DeckSubscriptionPayload
   folder(where: FolderSubscriptionWhereInput): FolderSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   card(where: CardSubscriptionWhereInput): CardSubscriptionPayload
 }
 
@@ -1181,6 +1297,11 @@ input UserCreateInput {
   resetToken: String
   resetTokenExpiry: Float
   decks: DeckCreateManyWithoutOwnerInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutDecksInput {
@@ -1271,6 +1392,15 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  decks: DeckUpdateManyWithoutOwnerInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -1288,6 +1418,13 @@ input UserUpdateManyMutationInput {
   resetTokenExpiry: Float
 }
 
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
 input UserUpdateOneRequiredWithoutDecksInput {
   create: UserCreateWithoutDecksInput
   connect: UserWhereUniqueInput
@@ -1301,6 +1438,11 @@ input UserUpdateWithoutDecksDataInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutDecksInput {

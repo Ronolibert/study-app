@@ -8,6 +8,7 @@ type Query {
   me: User
   deck(id: ID!): Deck!
   decks: [Deck]
+  folders: [Folder!]
 }
 
 type Mutation {
@@ -21,4 +22,5 @@ type Mutation {
   ): Deck!
   deleteDeck(id: ID!): Deck!
   deleteCard(id: ID!): Card!
+  createFolder(name: String!): Folder!
 }

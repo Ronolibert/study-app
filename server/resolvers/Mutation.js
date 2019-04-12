@@ -87,6 +87,23 @@ const Mutation = {
     );
 
     return card;
+  },
+  async createFolder(parent, args, ctx, info) {
+    const folder = await ctx.db.mutation.createFolder(
+      {
+        data: {
+          ...args,
+          owner: {
+            connect: {
+              id: ctx.request.userId
+            }
+          }
+        }
+      },
+      info
+    );
+
+    return folder;
   }
 };
 

@@ -25,5 +25,6 @@ type Card {
 type Folder {
   id: ID! @unique
   name: String!
-  subfolder: Folder
+  subfolders: [Folder]
+  owner: User!
 }
