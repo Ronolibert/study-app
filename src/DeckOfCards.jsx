@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const DECK_QUERY = gql`
@@ -8,14 +8,24 @@ const DECK_QUERY = gql`
       title
       description
       cards {
+        id
         term
       }
     }
   }
 `;
+
+const DELETE_CARD_MUTATION = gql`
+  mutation DELETE_CARD($id: ID!) {
+    deleteCard(id: $id) {
+      id
+    }
+  }
+`;
 function DeckOfCards({ match }) {
+  const deckId = match.params.deckId;
   return (
-    <Query query={DECK_QUERY} variables={{ id: match.params.deckId }}>
+    <Query query={DECK_QUERY} variables={{ id: deckId }}>
       {({ data: { deck }, loading, error }) => {
         if (loading) {
           return <div>Loading...</div>;
@@ -26,7 +36,7 @@ function DeckOfCards({ match }) {
             <h1>Title: {deck.title}</h1>
             <h2>description: {deck.description}</h2>
             <hr />
-            {deck.cards.map(card => (
+            {deck.cards.map(({ term, id }) => (
               <div
                 style={{
                   display: 'inline-block',
@@ -34,7 +44,18 @@ function DeckOfCards({ match }) {
                   border: '1px solid black'
                 }}
               >
-                {card.term}
+                {term}
+                id: #{id}
+                <Mutation
+                  mutation={DELETE_CARD_MUTATION}
+                  key={id}
+                  refetchQueries={[
+                    { query: DECK_QUERY, variables: { id: deckId } }
+                  ]}
+                  variables={{ id }}
+                >
+                  {deleteCard => <button onClick={deleteCard}>Delete</button>}
+                </Mutation>
               </div>
             ))}
           </div>

@@ -15,9 +15,6 @@ const Mutation = {
       },
       info
     );
-
-    console.log('where is the err', user);
-
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
     ctx.response.cookie('token', token, {
@@ -70,6 +67,26 @@ const Mutation = {
     );
 
     return deck;
+  },
+  async deleteDeck(parent, { id }, ctx, info) {
+    const deck = await ctx.db.mutation.deleteDeck(
+      {
+        where: { id }
+      },
+      info
+    );
+
+    return deck;
+  },
+  async deleteCard(parent, { id }, ctx, info) {
+    const card = await ctx.db.mutation.deleteCard(
+      {
+        where: { id }
+      },
+      info
+    );
+
+    return card;
   }
 };
 

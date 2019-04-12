@@ -1,7 +1,6 @@
 import React from 'react';
-import { Card } from 'antd';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 
 const DECKS_QUERY = gql`
   query {
@@ -15,7 +14,15 @@ const DECKS_QUERY = gql`
   }
 `;
 
-function Dashboard() {
+const DELETE_DECK_MUTATION = gql`
+  mutation DELETE_DECK($id: ID!) {
+    deleteDeck(id: $id) {
+      id
+    }
+  }
+`;
+
+function Dashboard({ history }) {
   return (
     <div>
       <Query query={DECKS_QUERY}>
@@ -23,6 +30,9 @@ function Dashboard() {
           if (decks) {
             return decks.map(({ id, title, cards }) => (
               <div
+                onClick={e => {
+                  history.push(`/deck/${id}`);
+                }}
                 key={id}
                 style={{
                   display: 'inline-block',
@@ -32,6 +42,22 @@ function Dashboard() {
               >
                 <h2>{title}</h2>
                 <p>{cards.length} terms</p>
+                <Mutation
+                  mutation={DELETE_DECK_MUTATION}
+                  refetchQueries={[{ query: DECKS_QUERY }]}
+                  variables={{ id }}
+                >
+                  {deleteDeck => (
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        deleteDeck();
+                      }}
+                    >
+                      delete
+                    </button>
+                  )}
+                </Mutation>
               </div>
             ));
           }

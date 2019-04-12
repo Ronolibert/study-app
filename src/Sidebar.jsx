@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { withRouter } from 'react-router-dom';
 import User from './User';
@@ -23,6 +23,10 @@ function Sidebar({ history, children }) {
     }
   }
 
+  useEffect(() => {
+    console.log('ok');
+  });
+
   return (
     <User>
       {({ data }) => (
@@ -33,12 +37,7 @@ function Sidebar({ history, children }) {
             onCollapse={() => toggleCollapsed(!collapsed)}
           >
             <div className="logo" />
-            <Menu
-              onSelect={handleOnSelect}
-              theme="dark"
-              defaultSelectedKeys={['1']}
-              mode="inline"
-            >
+            <Menu onSelect={handleOnSelect} theme="dark" mode="inline">
               <Menu.Item key="home">
                 <Icon type="home" />
                 <span>Home</span>
